@@ -2,22 +2,23 @@ import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
+import { MainLayout } from '@/shared/ui/layout';
 
 // Auth Pages
-const LoginPage = lazy(() => 
-  import('../../pages/auth/LoginPage').then(module => ({ 
-    default: module.LoginPage 
+const LoginPage = lazy(() =>
+  import('../../pages/auth/LoginPage').then(module => ({
+    default: module.LoginPage
   }))
 );
 
 // Dashboard
-// const DashboardPage = lazy(() => import('../../pages/dashboard/DashboardPage'));
+const DashboardPage = lazy(() => import('../../pages/dashboard/DashboardPage'));
 
 // Error Pages
 
-const NotFoundPage = lazy(() => 
-  import('../../pages/errors/NotFoundPage').then(module => ({ 
-    default: module.NotFoundPage 
+const NotFoundPage = lazy(() =>
+  import('../../pages/errors/NotFoundPage').then(module => ({
+    default: module.NotFoundPage
   }))
 );
 
@@ -43,7 +44,11 @@ export const AppRouter: React.FC = () => {
 
         {/* Protected Routes - Only accessible when logged in */}
         <Route element={<PrivateRoute />}>
-          {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
+          <Route element={<MainLayout />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            {/* <Route path="/patients" element={<PatientListPage />} /> */}
+        
+          </Route>
         </Route>
 
         {/* Error Page - Accessible to everyone */}
@@ -55,9 +60,9 @@ export const AppRouter: React.FC = () => {
           - If yes → go to dashboard
           - If no → go to login (PublicRoute will handle this)
         */}
-        <Route 
-          path="/" 
-          element={<Navigate to="/login" replace />} 
+        <Route
+          path="/"
+          element={<Navigate to="/login" replace />}
         />
 
         {/* Catch all unknown routes → 404 */}
