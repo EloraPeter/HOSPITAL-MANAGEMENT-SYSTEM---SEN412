@@ -4,8 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link } from "react-router-dom";
 import { Mail, ArrowLeft } from "lucide-react";
-import { AuthLayout } from "./components/AuthLayout";
+
 import { Button, Input } from "@/shared/ui";
+import { AuthLayout } from "../../features/auth/ui/AuthLayout";
 
 
 const forgotPasswordSchema = z.object({
