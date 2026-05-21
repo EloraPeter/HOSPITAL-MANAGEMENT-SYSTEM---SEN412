@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { UserRole } from '@/entities/user/model/user.types';
 
 interface AuthUser {
   id: string;
@@ -8,7 +7,7 @@ interface AuthUser {
   first_name: string;
   last_name: string;
   phone: string;
-  role: UserRole;
+  role: string;
 }
 
 interface AuthStoreState {
@@ -51,14 +50,21 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
       setError: (error) => set({ error, isLoading: false }),
       clearError: () => set({ error: null }),
 
-      logout: () => set({
-        user: null,
-        token: null,
-        refresh_token: null,
-        isAuthenticated: false,
-        isLoading: false,
-        error: null,
-      }),
+      logout: () => {
+        // Clear all stored data
+        set({
+          user: null,
+          token: null,
+          refresh_token: null,
+          isAuthenticated: false,
+          isLoading: false,
+          error: null,
+        });
+        
+        // Clear persisted storage
+        localStorage.removeItem('hospital-auth-storage');
+        sessionStorage.clear();
+      },
     }),
     {
       name: 'hospital-auth-storage',

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-
+import { Sidebar } from '@/widgets/sidebar/Sidebar';
+import { Header } from '@/widgets/header/Header';
 import { Container } from 'react-bootstrap';
-import { useUIStore } from '@/app/store';
-import { Sidebar } from './Sidebar';
-import { Header } from './Header';
+import { useUIStore } from '@/app/store/uiStore';
 
 export const MainLayout: React.FC = () => {
   const sidebarOpen = useUIStore((state) => state.sidebarOpen);
@@ -14,34 +13,39 @@ export const MainLayout: React.FC = () => {
       {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <div 
         className="d-flex flex-column flex-grow-1"
         style={{ 
-          marginLeft: sidebarOpen ? '280px' : '80px',
+          marginLeft: sidebarOpen ? '280px' : '0',
           transition: 'margin-left 0.3s ease',
+          minHeight: '100vh',
         }}
       >
         {/* Header */}
         <Header />
 
         {/* Page Content */}
-        <main className="flex-grow-1 bg-light p-4">
-          <Outlet />
+        <main className="flex-grow-1 bg-light">
+          <Container fluid className="p-3 p-md-4">
+            <Outlet />
+          </Container>
         </main>
 
         {/* Footer */}
-        <footer className="bg-white border-top py-3 px-4">
-          <Container fluid>
-            <div className="d-flex justify-content-between align-items-center">
-              <small className="text-muted">
-                © {new Date().getFullYear()} Hospital Management System. All rights reserved.
-              </small>
-              <small className="text-muted">
-                Version 1.0.0
-              </small>
+        <footer className="bg-white border-top py-3 px-3 px-md-4">
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+            <small className="text-muted">
+              © {new Date().getFullYear()} MediCare Pro. All rights reserved.
+            </small>
+            <div className="d-flex gap-3">
+              <small className="text-muted">Version 1.0.0</small>
+              <small className="text-muted d-none d-md-block">|</small>
+              <small className="text-muted">Privacy Policy</small>
+              <small className="text-muted d-none d-md-block">|</small>
+              <small className="text-muted">Terms of Service</small>
             </div>
-          </Container>
+          </div>
         </footer>
       </div>
     </div>
