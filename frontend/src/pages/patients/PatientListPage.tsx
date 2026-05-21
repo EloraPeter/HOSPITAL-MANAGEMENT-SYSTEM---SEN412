@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PatientFormModal } from '@/features/patient-records/ui/PatientFormModal';
 
 export function PatientListPage() {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="container-fluid p-4">
@@ -11,7 +14,7 @@ export function PatientListPage() {
           <p className="text-muted mb-0">Manage patient records and information</p>
         </div>
         <button
-          onClick={() => navigate('/patients/create')}
+          onClick={() => setShowModal(true)}
           className="btn btn-primary"
         >
           <i className="bi bi-plus-lg me-2"></i>
@@ -66,7 +69,10 @@ export function PatientListPage() {
                 <tr onClick={() => navigate('/patients/1')} style={{ cursor: 'pointer' }}>
                   <td>
                     <div className="d-flex align-items-center">
-                      <div className="avatar-circle bg-primary text-white me-3" style={{ width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div 
+                        className="bg-primary text-white me-3 d-flex align-items-center justify-content-center"
+                        style={{ width: '40px', height: '40px', borderRadius: '50%', fontSize: '0.9rem', fontWeight: 'bold' }}
+                      >
                         JD
                       </div>
                       <div>
@@ -100,51 +106,7 @@ export function PatientListPage() {
                       className="btn btn-sm btn-outline-secondary"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate('/appointments/create?patientId=1');
-                      }}
-                    >
-                      Schedule
-                    </button>
-                  </td>
-                </tr>
-                <tr onClick={() => navigate('/patients/2')} style={{ cursor: 'pointer' }}>
-                  <td>
-                    <div className="d-flex align-items-center">
-                      <div className="avatar-circle bg-info text-white me-3" style={{ width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        JS
-                      </div>
-                      <div>
-                        <p className="mb-0 fw-medium">Jane Smith</p>
-                        <small className="text-muted">MRN: 10002</small>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div>
-                      <p className="mb-0">(555) 987-6543</p>
-                      <small className="text-muted">jane@example.com</small>
-                    </div>
-                  </td>
-                  <td>28 / Female</td>
-                  <td>A-</td>
-                  <td>
-                    <span className="badge bg-success">Active</span>
-                  </td>
-                  <td>
-                    <button 
-                      className="btn btn-sm btn-outline-primary me-2"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate('/patients/2');
-                      }}
-                    >
-                      View
-                    </button>
-                    <button 
-                      className="btn btn-sm btn-outline-secondary"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate('/appointments/create?patientId=2');
+                        navigate('/appointments');
                       }}
                     >
                       Schedule
@@ -162,24 +124,20 @@ export function PatientListPage() {
         <p className="text-muted mb-0">Showing 1-2 of 50 patients</p>
         <nav>
           <ul className="pagination mb-0">
-            <li className="page-item disabled">
-              <a className="page-link" href="#">Previous</a>
-            </li>
-            <li className="page-item active">
-              <a className="page-link" href="#">1</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">2</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">3</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">Next</a>
-            </li>
+            <li className="page-item disabled"><a className="page-link" href="#">Previous</a></li>
+            <li className="page-item active"><a className="page-link" href="#">1</a></li>
+            <li className="page-item"><a className="page-link" href="#">2</a></li>
+            <li className="page-item"><a className="page-link" href="#">3</a></li>
+            <li className="page-item"><a className="page-link" href="#">Next</a></li>
           </ul>
         </nav>
       </div>
+
+      {/* Patient Form Modal */}
+      <PatientFormModal 
+        show={showModal} 
+        onHide={() => setShowModal(false)} 
+      />
     </div>
   );
 }

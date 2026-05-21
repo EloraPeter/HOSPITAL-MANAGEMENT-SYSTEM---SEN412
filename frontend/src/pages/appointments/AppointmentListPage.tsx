@@ -1,7 +1,16 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AppointmentFormModal } from '@/features/appointment-scheduling/ui/AppointmentFormModal';
 
 export function AppointmentListPage() {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
+
+  const handleNewAppointment = (patientId?: string) => {
+    setSelectedPatientId(patientId || null);
+    setShowModal(true);
+  };
 
   return (
     <div className="container-fluid p-4">
@@ -12,7 +21,7 @@ export function AppointmentListPage() {
           <p className="text-muted mb-0">Manage and schedule patient appointments</p>
         </div>
         <button
-          onClick={() => navigate('/appointments/create')}
+          onClick={() => handleNewAppointment()}
           className="btn btn-primary"
         >
           <i className="bi bi-plus-lg me-2"></i>
@@ -142,7 +151,7 @@ export function AppointmentListPage() {
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ cursor: 'pointer' }}>
+                <tr>
                   <td>
                     <div>
                       <p className="mb-0 fw-medium">Mar 15, 2025</p>
@@ -166,42 +175,10 @@ export function AppointmentListPage() {
                     <span className="badge bg-primary">Scheduled</span>
                   </td>
                   <td>
-                    <button className="btn btn-sm btn-outline-primary me-1">
-                      <i className="bi bi-eye"></i>
-                    </button>
-                    <button className="btn btn-sm btn-outline-success me-1">
-                      <i className="bi bi-check-lg"></i>
-                    </button>
-                    <button className="btn btn-sm btn-outline-danger">
-                      <i className="bi bi-x-lg"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr style={{ cursor: 'pointer' }}>
-                  <td>
-                    <div>
-                      <p className="mb-0 fw-medium">Mar 15, 2025</p>
-                      <small className="text-muted">11:00 AM - 11:30 AM</small>
-                    </div>
-                  </td>
-                  <td>
-                    <div>
-                      <p className="mb-0">Jane Smith</p>
-                      <small className="text-muted">MRN: 10002</small>
-                    </div>
-                  </td>
-                  <td>
-                    <div>
-                      <p className="mb-0">Dr. Michael Brown</p>
-                      <small className="text-muted">Pediatrics</small>
-                    </div>
-                  </td>
-                  <td>Follow-up</td>
-                  <td>
-                    <span className="badge bg-success">Confirmed</span>
-                  </td>
-                  <td>
-                    <button className="btn btn-sm btn-outline-primary me-1">
+                    <button 
+                      className="btn btn-sm btn-outline-primary me-1"
+                      onClick={() => navigate('/appointments/1')}
+                    >
                       <i className="bi bi-eye"></i>
                     </button>
                     <button className="btn btn-sm btn-outline-success me-1">
@@ -223,24 +200,21 @@ export function AppointmentListPage() {
         <p className="text-muted mb-0">Showing 1-2 of 45 appointments</p>
         <nav>
           <ul className="pagination mb-0">
-            <li className="page-item disabled">
-              <a className="page-link" href="#">Previous</a>
-            </li>
-            <li className="page-item active">
-              <a className="page-link" href="#">1</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">2</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">3</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">Next</a>
-            </li>
+            <li className="page-item disabled"><a className="page-link" href="#">Previous</a></li>
+            <li className="page-item active"><a className="page-link" href="#">1</a></li>
+            <li className="page-item"><a className="page-link" href="#">2</a></li>
+            <li className="page-item"><a className="page-link" href="#">3</a></li>
+            <li className="page-item"><a className="page-link" href="#">Next</a></li>
           </ul>
         </nav>
       </div>
+
+      {/* Appointment Modal */}
+      <AppointmentFormModal 
+        show={showModal} 
+        onHide={() => setShowModal(false)} 
+        patientId={selectedPatientId}
+      />
     </div>
   );
 }
