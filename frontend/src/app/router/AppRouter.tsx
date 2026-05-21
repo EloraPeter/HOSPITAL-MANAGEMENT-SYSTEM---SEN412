@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { MainLayout } from '@/shared/ui/layout';
+import { PatientListPage, PatientDetailPage, PatientCreatePage } from '@/pages/patients';
+import { AppointmentListPage, AppointmentCreatePage } from '@/pages/appointments';
 
 // Auth Pages
 const LoginPage = lazy(() =>
@@ -46,8 +48,16 @@ export const AppRouter: React.FC = () => {
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<DashboardPage />} />
-            {/* <Route path="/patients" element={<PatientListPage />} /> */}
-        
+            <Route path="patients">
+              <Route index element={<PatientListPage />} />
+              <Route path=":patientId" element={<PatientDetailPage />} />
+              <Route path="create" element={<PatientCreatePage />} />
+            </Route>
+
+            <Route path="appointments">
+              <Route index element={<AppointmentListPage />} />
+              <Route path="create" element={<AppointmentCreatePage />} />
+            </Route>
           </Route>
         </Route>
 
