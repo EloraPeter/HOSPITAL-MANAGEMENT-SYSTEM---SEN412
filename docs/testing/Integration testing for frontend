@@ -1,0 +1,226 @@
+Frontend Integration Testing Plan
+
+Hospital Management System (HMS)
+
+1. Purpose
+
+The purpose of this integration testing plan is to verify that the frontend of the Hospital Management System integrates correctly with backend APIs and the MySQL database through the Laravel backend. The testing ensures that users can perform healthcare-related tasks efficiently and that data flows correctly between system components.
+
+2. Technology Stack
+
+Component	Technology
+Frontend	HTML, CSS, JavaScript, Bootstrap
+Backend	PHP Laravel
+Database	MySQL
+API Communication	REST API
+Testing Device	Mobile Phones
+Browser Testing	Chrome Mobile, Safari Mobile, and other mobile browsers
+
+3. Scope
+
+The following modules are covered:
+
+* User Authentication
+* Dashboard
+* Patient Management
+* Appointment Management
+* Clinical Records
+* Laboratory Management
+* Pharmacy Management
+* Billing System
+* Notifications
+* Reports and Analytics
+
+4. Testing Objectives
+
+* Verify frontend pages communicate correctly with Laravel APIs.
+* Ensure data is correctly stored and retrieved from MySQL.
+* Validate user interactions and form submissions.
+* Verify API responses are displayed correctly on the frontend.
+* Confirm navigation between modules works properly.
+* Ensure responsive design functions on mobile devices.
+
+5. Integration Testing Approach
+
+The integration testing focuses on:
+
+* Frontend ↔ Laravel API Integration
+* Laravel API ↔ MySQL Database Integration
+* Frontend Module ↔ Frontend Module Integration
+* End-to-End User Workflow Testing
+
+6. Integration Test Scenarios
+
+6.1 Login Module Integration
+
+Components: Frontend Login Form ↔ Laravel Authentication API ↔ MySQL
+
+Test Cases:
+
+* Login with valid credentials.
+* Login with invalid credentials.
+* Verify user session creation.
+* Verify logout functionality.
+
+Expected Result:
+
+* Valid users gain access to the dashboard.
+* Invalid users receive appropriate error messages.
+
+6.2 Patient Registration Integration
+
+Components: Registration Form ↔ Patient API ↔ MySQL
+
+Test Cases:
+
+* Register a new patient.
+* Edit patient information.
+* Retrieve registered patient details.
+* Validate required fields.
+
+Expected Result:
+
+* Patient information is saved and displayed correctly.
+
+6.3 Appointment Management Integration
+
+Components: Appointment Form ↔ Appointment API ↔ MySQL
+
+Test Cases:
+
+* Create appointment.
+* Update appointment.
+* Cancel appointment.
+* View appointment schedule.
+
+Expected Result:
+
+* Appointment data is stored and retrieved successfully.
+
+6.4 Clinical Records Integration
+
+Components: Clinical Page ↔ Clinical API ↔ MySQL
+
+Test Cases:
+
+* Add diagnosis.
+* Add treatment notes.
+* View patient medical history.
+* Update consultation records.
+
+Expected Result:
+
+* Clinical information is correctly stored and displayed.
+
+6.5 Laboratory Module Integration
+
+Components: Laboratory Interface ↔ Laboratory API ↔ MySQL
+
+Test Cases:
+
+* Create laboratory request.
+* Upload laboratory results.
+* Retrieve laboratory reports.
+
+Expected Result:
+
+* Laboratory records are updated and accessible.
+
+6.6 Pharmacy Module Integration
+
+Components: Pharmacy Interface ↔ Pharmacy API ↔ MySQL
+
+Test Cases:
+
+* Create prescription.
+* Dispense medication.
+* Update prescription status.
+
+Expected Result:
+
+* Prescription records are accurately maintained.
+
+6.7 Billing Module Integration
+
+Components: Billing Interface ↔ Billing API ↔ MySQL
+
+Test Cases:
+
+* Generate invoice.
+* Process payment.
+* View payment history.
+
+Expected Result:
+
+* Billing records are saved and displayed correctly.
+
+7. API Integration Testing
+
+The following aspects were tested:
+
+* API request submission.
+* API response validation.
+* JSON data handling.
+* Error response handling.
+* Authentication token validation.
+* CRUD operations through APIs.
+
+Expected Result:
+
+* APIs return accurate and expected responses.
+
+8. Mobile Device Testing
+
+Testing was conducted using mobile phones to verify:
+
+* Responsive user interface.
+* Form functionality.
+* API communication.
+* Navigation between pages.
+* Data display consistency.
+
+Expected Result:
+
+* System functions correctly across supported mobile browsers.
+
+9. Error Handling Testing
+
+Scenarios Tested:
+
+* Missing required fields.
+* Invalid login credentials.
+* API request failures.
+* Database connection issues.
+* Invalid patient records.
+
+Expected Result:
+
+* Appropriate error messages are displayed without system crashes.
+
+10. Entry Criteria
+
+* Laravel backend deployed.
+* APIs available and functional.
+* MySQL database configured.
+* Test data prepared.
+* Frontend pages completed.
+
+11. Exit Criteria
+
+* All integration tests executed successfully.
+* Critical defects resolved.
+* APIs functioning correctly.
+* Frontend and backend communication verified.
+* Database transactions validated.
+
+12. Deliverables
+
+* Integration Test Cases
+* Test Execution Report
+* Defect Report
+* Test Summary Report
+* Integration Testing Sign-Off
+
+13. Conclusion
+
+Integration testing was conducted on the Hospital Management System using HTML,CSS,JavaScript,Bootstrap,PHP Laravel MySQL,and REST APIs.Testing was performed on mobile devices to verify the interaction between the frontend,backend APIs,and database.The results confirmed that all major modules communicate effectively,data is processed accurately,and the system meets the functional requirements for deployment.
