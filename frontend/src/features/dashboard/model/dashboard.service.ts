@@ -9,4 +9,9 @@ export const dashboardService = {
     await delay(800);
     return dummyDashboardData;
   },
+
+  refreshStats: async () => {
+    await delay(500);
+    return dummyDashboardData.stats;
+  },
 };

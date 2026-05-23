@@ -1,0 +1,32 @@
+export const SPECIALTIES = [
+  'Cardiology',
+  'Neurology',
+  'Pediatrics',
+  'Orthopedics',
+  'Emergency Medicine',
+  'Radiology',
+  'Oncology',
+  'Surgery',
+  'Internal Medicine',
+  'Dermatology',
+  'Ophthalmology',
+  'Psychiatry',
+  'Gynecology',
+  'Urology',
+  'ENT',
+] as const;
+
+export const DEPARTMENTS = [
+  'Emergency',
+  'Cardiology',
+  'Neurology',
+  'Pediatrics',
+  'Orthopedics',
+  'Radiology',
+  'Pharmacy',
+  'Administration',
+  'Oncology',
+  'Surgery',
+  'Laboratory',
+  'Outpatient',
+] as const;

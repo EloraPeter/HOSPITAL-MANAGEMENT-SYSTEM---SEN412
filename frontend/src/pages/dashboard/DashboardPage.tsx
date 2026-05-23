@@ -1,18 +1,21 @@
 import React from 'react';
-
+import { Row, Col } from 'react-bootstrap';
+// import { useDashboard } from '@/features/dashboard/model/useDashboard';
 import {
   StatsWidget,
   AppointmentList,
   RecentPatientsList,
   DepartmentLoadChart,
   RevenueChart,
+  WeeklyFlowChart,
 } from '@/features/dashboard/ui';
 import { PageHeader } from '@/shared/ui/layout/PageHeader';
 import { LoadingSpinner } from '@/shared/ui/feedback/LoadingSpinner';
+import { Button } from '@/shared/ui/button';
 import { useDashboard } from '@/features/dashboard/model/userDashboard';
 
 const DashboardPage: React.FC = () => {
-  const { data, isLoading, error } = useDashboard();
+  const { data, isLoading, error, refresh, lastUpdated } = useDashboard();
 
   if (isLoading) {
     return <LoadingSpinner text="Loading dashboard..." />;
@@ -21,8 +24,14 @@ const DashboardPage: React.FC = () => {
   if (error || !data) {
     return (
       <div className="text-center py-5">
-        <h5 className="text-danger">Error loading dashboard</h5>
+        <div className="mb-3">
+          <span style={{ fontSize: '3rem' }}>⚠️</span>
+        </div>
+        <h5 className="text-danger">Error Loading Dashboard</h5>
         <p className="text-muted">{error || 'Something went wrong'}</p>
+        <Button variant="primary" onClick={refresh}>
+          Try Again
+        </Button>
       </div>
     );
   }
@@ -31,15 +40,19 @@ const DashboardPage: React.FC = () => {
     <div className="fade-in">
       <PageHeader
         title="Dashboard"
-        subtitle="Welcome back! Here's what's happening today."
+        subtitle={
+          lastUpdated
+            ? `Last updated: ${lastUpdated.toLocaleTimeString()}`
+            : 'Welcome back! Here\'s what\'s happening today.'
+        }
         actions={
           <div className="d-flex gap-2">
-            <button className="btn btn-outline-primary btn-sm">
+            <Button variant="outline-primary" size="sm" onClick={refresh}>
+              Refresh
+            </Button>
+            <Button variant="primary" size="sm">
               Download Report
-            </button>
-            <button className="btn btn-primary btn-sm">
-              New Appointment
-            </button>
+            </Button>
           </div>
         }
       />
@@ -48,23 +61,28 @@ const DashboardPage: React.FC = () => {
       <StatsWidget stats={data.stats} />
 
       {/* Appointments & Departments */}
-      <div className="row mt-4">
-        <div className="col-lg-8 mb-4">
-          <AppointmentList appointments={data.appointments} />
-        </div>
-        <div className="col-lg-4 mb-4">
-          <DepartmentLoadChart departments={data.departments} />
-        </div>
-      </div>
+      <Row className="mt-4 g-3">
+        <Col lg={8}>
+          <AppointmentList appointments={data.todayAppointments} />
+        </Col>
+        <Col lg={4}>
+          <DepartmentLoadChart departments={data.departmentLoads} />
+        </Col>
+      </Row>
 
       {/* Revenue & Recent Patients */}
-      <div className="row">
-        <div className="col-lg-8 mb-4">
-          <RevenueChart data={data.revenue} />
-        </div>
-        <div className="col-lg-4 mb-4">
-          <RecentPatientsList patients={data.patients} />
-        </div>
+      <Row className="mt-3 g-3">
+        <Col lg={8}>
+          <RevenueChart data={data.revenueData} />
+        </Col>
+        <Col lg={4}>
+          <RecentPatientsList patients={data.recentPatients} />
+        </Col>
+      </Row>
+
+      {/* Weekly Flow */}
+      <div className="mt-3">
+        <WeeklyFlowChart data={data.weeklyFlow} />
       </div>
     </div>
   );

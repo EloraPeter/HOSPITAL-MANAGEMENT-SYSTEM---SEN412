@@ -9,11 +9,12 @@ import {
   Download,
   Filter,
 } from "lucide-react";
-import { Card } from "@/shared/ui/card";
-import { Button } from "@/shared/ui/button";
-import { ReportCard } from "./components/ReportCard";
+
+
+
 import { ReportFilters } from "./components/ReportFilters";
-import { ReportChart } from "./components/ReportChart";
+import { Button, Card } from "react-bootstrap";
+
 
 interface ReportMetric {
   title: string;

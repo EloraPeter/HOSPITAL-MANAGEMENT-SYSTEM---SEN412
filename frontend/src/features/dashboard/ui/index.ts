@@ -3,3 +3,4 @@ export { AppointmentList } from './AppointmentList';
 export { RecentPatientsList } from './RecentPatientsList';
 export { DepartmentLoadChart } from './DepartmentLoadChart';
 export { RevenueChart } from './RevenueChart';
+export { WeeklyFlowChart } from './WeeklyFlowChart';

@@ -1,96 +1,77 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// Types - use 'type' keyword for type-only imports
-export interface User {
+interface AuthUser {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  role: UserRole;
-  avatar?: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  role: string;
 }
 
-export type UserRole = 'admin' | 'doctor' | 'nurse' | 'receptionist' | 'pharmacist' | 'accountant';
-
-interface AuthState {
-  user: User | null;
+interface AuthStoreState {
+  user: AuthUser | null;
   token: string | null;
-  refreshToken: string | null;
+  refresh_token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
 }
 
-interface AuthActions {
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+interface AuthStoreActions {
+  setAuth: (data: { user: AuthUser; token: string; refresh_token: string }) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
   clearError: () => void;
-  setUser: (user: User) => void;
+  logout: () => void;
 }
 
-export const useAuthStore = create<AuthState & AuthActions>()(
+export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
   persist(
     (set) => ({
       user: null,
       token: null,
-      refreshToken: null,
+      refresh_token: null,
       isAuthenticated: false,
       isLoading: false,
       error: null,
 
-      login: async (email: string, password: string) => {
-        set({ isLoading: true, error: null });
-        
-        try {
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          
-          const mockUser: User = {
-            id: '1',
-            email,
-            firstName: 'Dr. John',
-            lastName: 'Smith',
-            role: 'admin',
-          };
-          
-          set({
-            user: mockUser,
-            token: 'mock-jwt-token',
-            refreshToken: 'mock-refresh-token',
-            isAuthenticated: true,
-            isLoading: false,
-            error: null,
-          });
-        } catch (error: any) {
-          set({
-            isLoading: false,
-            error: error.message || 'Login failed. Please try again.',
-          });
-        }
-      },
+      setAuth: (data) => set({
+        user: data.user,
+        token: data.token,
+        refresh_token: data.refresh_token,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      }),
+
+      setLoading: (isLoading) => set({ isLoading }),
+      setError: (error) => set({ error, isLoading: false }),
+      clearError: () => set({ error: null }),
 
       logout: () => {
+        // Clear all stored data
         set({
           user: null,
           token: null,
-          refreshToken: null,
+          refresh_token: null,
           isAuthenticated: false,
+          isLoading: false,
           error: null,
         });
         
-        localStorage.removeItem('hospital-auth');
+        // Clear persisted storage
+        localStorage.removeItem('hospital-auth-storage');
+        sessionStorage.clear();
       },
-
-      clearError: () => set({ error: null }),
-
-      setUser: (user) => set({ user }),
     }),
     {
-      name: 'hospital-auth',
+      name: 'hospital-auth-storage',
       partialize: (state) => ({
-        token: state.token,
-        refreshToken: state.refreshToken,
         user: state.user,
+        token: state.token,
+        refresh_token: state.refresh_token,
         isAuthenticated: state.isAuthenticated,
       }),
     }
