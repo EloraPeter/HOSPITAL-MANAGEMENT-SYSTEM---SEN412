@@ -3,16 +3,16 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { MainLayout } from '@/shared/ui/layout';
-import { AppointmentListPage } from '@/pages/appointments';
-import { PatientListPage } from '@/pages/patients';
 
-
+// Lazy loaded pages
 const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
 const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage'));
 const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage'));
+const AppointmentListPage = lazy(() => import('@/pages/appointments/AppointmentListPage'));
+const PatientListPage = lazy(() => import('@/pages/patients/PatientListPage'));
+const StaffPage = lazy(() => import('@/pages/staff/StaffPage'));
 const NotFoundPage = lazy(() => import('@/pages/errors/NotFoundPage'));
 
-// Loading component
 const PageLoader = () => (
   <div className="d-flex justify-content-center align-items-center vh-100">
     <div className="text-center">
@@ -33,15 +33,15 @@ export const AppRouter: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
         </Route>
 
-        {/* Protected Routes */}
+        {/* Protected Routes with MainLayout */}
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/appointments" element={<AppointmentListPage />} />
             <Route path="/patients" element={<PatientListPage />} />
-
-
+            {/* Add Staff route here */}
+            <Route path="/staff" element={<StaffPage />} />
           </Route>
         </Route>
 

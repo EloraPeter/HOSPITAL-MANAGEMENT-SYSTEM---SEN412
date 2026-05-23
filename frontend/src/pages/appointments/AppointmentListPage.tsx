@@ -218,3 +218,6 @@ export function AppointmentListPage() {
     </div>
   );
 }
+
+
+export default AppointmentListPage;

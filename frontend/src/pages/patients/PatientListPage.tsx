@@ -141,3 +141,6 @@ export function PatientListPage() {
     </div>
   );
 }
+
+
+export default PatientListPage;

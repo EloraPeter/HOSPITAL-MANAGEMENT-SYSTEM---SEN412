@@ -4,7 +4,8 @@ import {
   Speedometer2, 
   People, 
   Calendar3, 
-  PersonBadge, 
+  PersonBadge,
+  PersonPlus,
   Capsule,
   CashStack,
   GraphUp,
@@ -27,14 +28,54 @@ export const Sidebar: React.FC = () => {
   const location = useLocation();
 
   const navItems: NavItem[] = [
-    { path: '/dashboard', label: 'Dashboard', icon: <Speedometer2 size={20} /> },
-    { path: '/patients', label: 'Patients', icon: <People size={20} />, badge: '1.2k' },
-    { path: '/appointments', label: 'Appointments', icon: <Calendar3 size={20} />, badge: '48' },
-    { path: '/doctors', label: 'Doctors', icon: <PersonBadge size={20} /> },
-    { path: '/pharmacy', label: 'Pharmacy', icon: <Capsule size={20} /> },
-    { path: '/billing', label: 'Billing', icon: <CashStack size={20} /> },
-    { path: '/reports', label: 'Reports', icon: <GraphUp size={20} /> },
-    { path: '/settings', label: 'Settings', icon: <Gear size={20} /> },
+    { 
+      path: '/dashboard', 
+      label: 'Dashboard', 
+      icon: <Speedometer2 size={20} /> 
+    },
+    { 
+      path: '/patients', 
+      label: 'Patients', 
+      icon: <People size={20} />, 
+      badge: '1.2k' 
+    },
+    { 
+      path: '/appointments', 
+      label: 'Appointments', 
+      icon: <Calendar3 size={20} />, 
+      badge: '48' 
+    },
+    { 
+      path: '/staff',                    // <-- ADD THIS
+      label: 'Staff',                     // <-- ADD THIS
+      icon: <PersonPlus size={20} />,    // <-- ADD THIS
+      badge: '150'                        // <-- ADD THIS (optional)
+    },
+    { 
+      path: '/doctors', 
+      label: 'Doctors', 
+      icon: <PersonBadge size={20} /> 
+    },
+    { 
+      path: '/pharmacy', 
+      label: 'Pharmacy', 
+      icon: <Capsule size={20} /> 
+    },
+    { 
+      path: '/billing', 
+      label: 'Billing', 
+      icon: <CashStack size={20} /> 
+    },
+    { 
+      path: '/reports', 
+      label: 'Reports', 
+      icon: <GraphUp size={20} /> 
+    },
+    { 
+      path: '/settings', 
+      label: 'Settings', 
+      icon: <Gear size={20} /> 
+    },
   ];
 
   return (
@@ -67,7 +108,6 @@ export const Sidebar: React.FC = () => {
               MediCare Pro
             </span>
           </div>
-          {/* Close button for mobile */}
           <button 
             className="btn btn-link text-white d-lg-none p-0"
             onClick={toggleSidebar}
@@ -82,15 +122,12 @@ export const Sidebar: React.FC = () => {
         <nav className="py-2 overflow-auto" style={{ height: 'calc(100% - 65px)' }}>
           {navItems.map((item) => {
             const isActive = location.pathname.startsWith(item.path);
-            
             return (
               <NavLink
                 key={item.path}
                 to={item.path}
                 onClick={() => {
-                  if (window.innerWidth < 992) {
-                    toggleSidebar();
-                  }
+                  if (window.innerWidth < 992) toggleSidebar();
                 }}
                 className="d-flex align-items-center text-decoration-none mx-2 my-1 rounded-3"
                 style={{
