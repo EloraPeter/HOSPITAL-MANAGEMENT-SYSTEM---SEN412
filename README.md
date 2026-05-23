@@ -106,3 +106,72 @@ A comprehensive, modern Hospital Management System built with React, TypeScript,
 ---
 
 ## 📁 Project Structure
+hospital-management-system/
+├── public/
+│ └── assets/
+│ ├── images/
+│ └── icons/
+│
+├── src/
+│ ├── app/ # Application layer
+│ │ ├── providers/ # Context providers
+│ │ ├── router/ # Route configuration
+│ │ └── store/ # Zustand stores
+│ │
+│ ├── pages/ # Page components
+│ │ ├── auth/ # Login, Register pages
+│ │ ├── dashboard/ # Dashboard page
+│ │ ├── patients/ # Patient list/detail pages
+│ │ ├── appointments/ # Appointment pages
+│ │ ├── staff/ # Staff management
+│ │ ├── pharmacy/ # Pharmacy pages
+│ │ ├── billing/ # Billing pages
+│ │ ├── reports/ # Reports pages
+│ │ └── errors/ # Error pages (404, etc.)
+│ │
+│ ├── features/ # Feature modules (business logic)
+│ │ ├── auth/ # Authentication feature
+│ │ ├── patient-records/ # Patient management
+│ │ ├── appointment-scheduling/
+│ │ ├── prescription/ # Prescription feature
+│ │ ├── medical-history/ # Medical records
+│ │ └── notifications/ # Notification system
+│ │
+│ ├── entities/ # Business entities
+│ │ ├── user/ # User types & constants
+│ │ ├── patient/ # Patient types & constants
+│ │ ├── doctor/ # Doctor types & constants
+│ │ ├── appointment/ # Appointment types & constants
+│ │ ├── prescription/ # Prescription types
+│ │ ├── lab/ # Lab test types
+│ │ ├── billing/ # Billing & invoice types
+│ │ └── dischargeSummary/ # Discharge summary types
+│ │
+│ ├── widgets/ # Composite components
+│ │ ├── sidebar/ # Navigation sidebar
+│ │ ├── header/ # Top header bar
+│ │ ├── search/ # Global search
+│ │ └── footer/ # Footer component
+│ │
+│ ├── shared/ # Shared resources
+│ │ ├── ui/ # Reusable UI components
+│ │ │ ├── layout/ # MainLayout, AuthLayout
+│ │ │ ├── forms/ # Form inputs, selects
+│ │ │ ├── feedback/ # Loading, errors, empty states
+│ │ │ └── data-display/ # Tables, badges, stat cards
+│ │ ├── lib/ # Utilities
+│ │ ├── api/ # API client
+│ │ ├── hooks/ # Custom hooks
+│ │ ├── types/ # Shared TypeScript types
+│ │ └── constants/ # App constants
+│ │
+│ └── styles/ # Global styles
+│ ├── index.scss # Main stylesheet
+│ ├── variables.scss # SCSS variables
+│ └── mixins.scss # SCSS mixins
+│
+├── .env # Environment variables
+├── .env.example # Environment template
+├── vite.config.ts # Vite configuration
+├── tsconfig.json # TypeScript config
+└── package.json # Dependencies
