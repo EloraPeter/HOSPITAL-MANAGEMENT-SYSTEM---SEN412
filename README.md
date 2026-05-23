@@ -1,177 +1,111 @@
-# 🏥 MediCare Pro - Hospital Management System
+# MediCare Pro - Hospital Management System
 
-A comprehensive, modern Hospital Management System built with React, TypeScript, and Bootstrap. Designed to streamline healthcare operations with a clean, intuitive interface.
+A comprehensive, modern Hospital Management System built with React, TypeScript, and Bootstrap. Designed to streamline healthcare operations, enhance patient care, and improve administrative efficiency through an intuitive digital platform.
 
-![MediCare Pro](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.4-3178C6?logo=typescript)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap)
 ![Zustand](https://img.shields.io/badge/Zustand-4.5-000000?logo=zustand)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
-## 📋 Table of Contents
+## Overview
 
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Architecture](#-architecture)
-- [Database Schema](#-database-schema)
-- [User Roles](#-user-roles)
-- [Pages](#-pages)
-- [API Integration](#-api-integration)
-- [Contributing](#-contributing)
-- [License](#-license)
+MediCare Pro is a full-featured healthcare management platform that connects patients, doctors, and administrative staff in a unified system. The application facilitates appointment scheduling, patient record management, prescription tracking, billing, and reporting - all from a single, easy-to-use interface.
+
+Built with modern web technologies and following Feature-Sliced Design architecture, the system is scalable, maintainable, and ready for production deployment.
 
 ---
 
-## ✨ Features
+## Table of Contents
 
-### 🔐 Authentication & Authorization
-- Role-based access control (Admin, Doctor, Nurse, Patient, etc.)
-- JWT token authentication
-- Password recovery flow
-- Session persistence
-
-### 📊 Dashboard
-- Real-time hospital statistics
-- Today's appointments overview
-- Department occupancy tracking
-- Revenue analytics with charts
-- Weekly patient flow visualization
-- Recent patient admissions
-
-### 👨‍⚕️ Patient Management
-- Patient registration with modal forms
-- Search and filter patients
-- Medical history tracking
-- Emergency contact management
-- Blood group and allergy records
-
-### 📅 Appointment Scheduling
-- Create/Edit/Cancel appointments
-- Doctor availability tracking
-- Time slot management
-- Appointment status workflow
-- Calendar view
-
-### 👩‍⚕️ Doctor Management
-- Doctor profiles and schedules
-- Specialty and department assignment
-- Availability status tracking
-- License verification
-
-### 💊 Pharmacy
-- Prescription management
-- Drug inventory tracking
-- Dispense medication workflow
-- Refill management
-
-### 💰 Billing & Invoicing
-- Generate invoices
-- Payment tracking
-- Insurance verification
-- Financial reports
-
-### 📈 Reports & Analytics
-- Financial reports
-- Patient statistics
-- Operational analytics
-- Custom report generation
-
-### 📱 Responsive Design
-- Mobile-first approach
-- Touch-friendly interface
-- Adaptive sidebar
-- Responsive tables and cards
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Technology Stack](#technology-stack)
+- [Project Architecture](#project-architecture)
+- [Getting Started](#getting-started)
+- [Database Design](#database-design)
+- [User Roles & Permissions](#user-roles--permissions)
+- [Application Routes](#application-routes)
+- [API Integration](#api-integration)
+- [Development Guide](#development-guide)
+- [License](#license)
 
 ---
 
-## 🛠 Tech Stack
+## Key Features
 
-| Category | Technology |
-|----------|------------|
-| **Framework** | React 18 with TypeScript |
-| **Build Tool** | Vite 5 |
-| **Styling** | Bootstrap 5.3, SCSS |
-| **State Management** | Zustand |
-| **Routing** | React Router 6 |
-| **Form Validation** | React Hook Form + Zod |
-| **HTTP Client** | Axios |
-| **Icons** | Bootstrap Icons, Lucide React |
-| **Notifications** | React Toastify |
-| **Date Handling** | date-fns |
+### Authentication & Security
+- Multi-role authentication system with JWT tokens
+- Role-based access control with granular permissions
+- Session persistence with secure token storage
+- Password recovery and reset workflow
+
+### Dashboard & Analytics
+- Real-time hospital statistics and key performance indicators
+- Daily appointment summaries with status tracking
+- Department occupancy monitoring with visual indicators
+- Revenue tracking with monthly comparison charts
+- Weekly patient admission and discharge flow visualization
+
+### Patient Management
+- Complete patient registration with medical history
+- Advanced search and filtering capabilities
+- Emergency contact and insurance information storage
+- Blood group, allergy, and medical condition tracking
+- Patient status monitoring (admitted, discharged, under observation)
+
+### Appointment Scheduling
+- Streamlined appointment creation with doctor availability
+- Time slot management with conflict prevention
+- Appointment status workflow (pending, approved, in-progress, completed)
+- Calendar and list view options
+
+### Clinical Features
+- Medical record creation and management
+- Prescription generation with dosage and refill tracking
+- Lab test ordering and result management
+- Discharge summary generation with follow-up instructions
+
+### Financial Management
+- Automated billing based on appointments and services
+- Payment tracking with multiple payment methods
+- Insurance verification and claims processing
+- Financial reporting and revenue analytics
+
+### User Experience
+- Responsive design optimized for desktop and mobile devices
+- Intuitive navigation with collapsible sidebar
+- Dark and light theme support
+- Form validation with real-time feedback
+- Toast notifications for system events
 
 ---
 
-## 📁 Project Structure
-hospital-management-system/
-├── public/
-│ └── assets/
-│ ├── images/
-│ └── icons/
-│
-├── src/
-│ ├── app/ # Application layer
-│ │ ├── providers/ # Context providers
-│ │ ├── router/ # Route configuration
-│ │ └── store/ # Zustand stores
-│ │
-│ ├── pages/ # Page components
-│ │ ├── auth/ # Login, Register pages
-│ │ ├── dashboard/ # Dashboard page
-│ │ ├── patients/ # Patient list/detail pages
-│ │ ├── appointments/ # Appointment pages
-│ │ ├── staff/ # Staff management
-│ │ ├── pharmacy/ # Pharmacy pages
-│ │ ├── billing/ # Billing pages
-│ │ ├── reports/ # Reports pages
-│ │ └── errors/ # Error pages (404, etc.)
-│ │
-│ ├── features/ # Feature modules (business logic)
-│ │ ├── auth/ # Authentication feature
-│ │ ├── patient-records/ # Patient management
-│ │ ├── appointment-scheduling/
-│ │ ├── prescription/ # Prescription feature
-│ │ ├── medical-history/ # Medical records
-│ │ └── notifications/ # Notification system
-│ │
-│ ├── entities/ # Business entities
-│ │ ├── user/ # User types & constants
-│ │ ├── patient/ # Patient types & constants
-│ │ ├── doctor/ # Doctor types & constants
-│ │ ├── appointment/ # Appointment types & constants
-│ │ ├── prescription/ # Prescription types
-│ │ ├── lab/ # Lab test types
-│ │ ├── billing/ # Billing & invoice types
-│ │ └── dischargeSummary/ # Discharge summary types
-│ │
-│ ├── widgets/ # Composite components
-│ │ ├── sidebar/ # Navigation sidebar
-│ │ ├── header/ # Top header bar
-│ │ ├── search/ # Global search
-│ │ └── footer/ # Footer component
-│ │
-│ ├── shared/ # Shared resources
-│ │ ├── ui/ # Reusable UI components
-│ │ │ ├── layout/ # MainLayout, AuthLayout
-│ │ │ ├── forms/ # Form inputs, selects
-│ │ │ ├── feedback/ # Loading, errors, empty states
-│ │ │ └── data-display/ # Tables, badges, stat cards
-│ │ ├── lib/ # Utilities
-│ │ ├── api/ # API client
-│ │ ├── hooks/ # Custom hooks
-│ │ ├── types/ # Shared TypeScript types
-│ │ └── constants/ # App constants
-│ │
-│ └── styles/ # Global styles
-│ ├── index.scss # Main stylesheet
-│ ├── variables.scss # SCSS variables
-│ └── mixins.scss # SCSS mixins
-│
-├── .env # Environment variables
-├── .env.example # Environment template
-├── vite.config.ts # Vite configuration
-├── tsconfig.json # TypeScript config
-└── package.json # Dependencies
+## Technology Stack
+
+| Category | Technology | Purpose |
+|----------|------------|---------|
+| **Frontend Framework** | React 18 | User interface component library |
+| **Language** | TypeScript 5.4 | Type-safe development |
+| **Build Tool** | Vite 5 | Fast development and building |
+| **UI Framework** | Bootstrap 5.3 | Responsive layout and components |
+| **CSS Preprocessor** | SCSS/Sass | Advanced styling with variables and mixins |
+| **State Management** | Zustand 4.5 | Lightweight global state |
+| **Routing** | React Router 6 | Client-side navigation |
+| **Form Handling** | React Hook Form 7 | Performant form management |
+| **Validation** | Zod 3.23 | Schema-based validation |
+| **HTTP Client** | Axios 1.7 | API communication |
+| **Icons** | Bootstrap Icons, Lucide React | UI icons |
+| **Notifications** | React Toastify | Toast messages |
+| **Date Utilities** | date-fns 3.6 | Date manipulation |
+
+---
+
+## Project Architecture
+
+The project follows **Feature-Sliced Design**, a modern architectural methodology for frontend applications that emphasizes separation of concerns and scalability.
+
+### Layer Structure
