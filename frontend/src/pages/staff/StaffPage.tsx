@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Container, Row, Col, Button, Form, ButtonGroup } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, ButtonGroup, Modal } from 'react-bootstrap';
 import { Plus, Download, Upload, Filter, Search, LayoutList, Grid3x3 } from 'lucide-react';
 import { useStaff } from '@/features/staff-management/model/useStaff';
 import { StaffCard } from './components/StaffCard/StaffCard';
-
 import { StaffStats } from './components/StaffStats/StaffStats';
+import { StaffFormModal } from './components/StaffFormModal/StaffFormModal';
 import { PageHeader } from '@/shared/ui/layout/PageHeader';
 import { LoadingSpinner } from '@/shared/ui/feedback/LoadingSpinner';
 import type { StaffFilters as StaffFiltersType } from '@/entities/staff/model/staff.types';
@@ -15,6 +15,7 @@ const StaffPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false); // Add state for modal
 
   const filters: StaffFiltersType = useMemo(
     () => ({
@@ -30,7 +31,7 @@ const StaffPage: React.FC = () => {
     [searchParams]
   );
 
-  const { data, isLoading, error } = useStaff(filters);
+  const { data, isLoading, error, refetch } = useStaff(filters);
 
   const updateFilters = (newFilters: Partial<StaffFiltersType>) => {
     setSearchParams((prev) => {
@@ -46,6 +47,12 @@ const StaffPage: React.FC = () => {
     });
   };
 
+  // Handle successful staff creation
+  const handleStaffCreated = () => {
+    setShowAddModal(false);
+    refetch(); // Refresh the staff list
+  };
+
   if (isLoading) {
     return <LoadingSpinner text="Loading staff..." />;
   }
@@ -53,8 +60,14 @@ const StaffPage: React.FC = () => {
   if (error) {
     return (
       <Container className="py-5 text-center">
+        <div className="mb-3">
+          <span style={{ fontSize: '3rem' }}>⚠️</span>
+        </div>
         <h5 className="text-danger">Error loading staff</h5>
         <p className="text-muted">{error}</p>
+        <Button variant="primary" onClick={refetch}>
+          Try Again
+        </Button>
       </Container>
     );
   }
@@ -72,7 +85,12 @@ const StaffPage: React.FC = () => {
             <Button variant="outline-secondary" size="sm">
               <Download size={16} className="me-1" /> Export
             </Button>
-            <Button variant="primary" size="sm">
+            {/* FIXED: Add onClick handler */}
+            <Button 
+              variant="primary" 
+              size="sm"
+              onClick={() => setShowAddModal(true)}
+            >
               <Plus size={16} className="me-1" /> Add Staff
             </Button>
           </div>
@@ -97,8 +115,8 @@ const StaffPage: React.FC = () => {
             />
           </div>
         </Col>
-        <Col md={2} className="ms-auto">
-          <div className="d-flex gap-2">
+        <Col md={6} lg={7}>
+          <div className="d-flex justify-content-end gap-2">
             <Button
               variant={showFilters ? 'primary' : 'outline-secondary'}
               onClick={() => setShowFilters(!showFilters)}
@@ -205,8 +223,53 @@ const StaffPage: React.FC = () => {
       {(!data?.staff || data.staff.length === 0) && (
         <div className="text-center py-5">
           <p className="text-muted">No staff members found matching your filters.</p>
+          <Button 
+            variant="primary" 
+            onClick={() => setShowAddModal(true)}
+          >
+            <Plus size={16} className="me-1" /> Add First Staff Member
+          </Button>
         </div>
       )}
+
+      {/* Pagination */}
+      {data && data.total > data.limit && (
+        <div className="d-flex justify-content-between align-items-center mt-4">
+          <p className="text-muted mb-0">
+            Showing {(data.page - 1) * data.limit + 1}-{Math.min(data.page * data.limit, data.total)} of {data.total} staff
+          </p>
+          <nav>
+            <ul className="pagination mb-0">
+              <li className={`page-item ${data.page <= 1 ? 'disabled' : ''}`}>
+                <button 
+                  className="page-link" 
+                  onClick={() => updateFilters({ page: data.page - 1 })}
+                >
+                  Previous
+                </button>
+              </li>
+              <li className="page-item active">
+                <span className="page-link">{data.page}</span>
+              </li>
+              <li className={`page-item ${data.page * data.limit >= data.total ? 'disabled' : ''}`}>
+                <button 
+                  className="page-link" 
+                  onClick={() => updateFilters({ page: data.page + 1 })}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      )}
+
+      {/* Add Staff Modal */}
+      <StaffFormModal
+        show={showAddModal}
+        onHide={() => setShowAddModal(false)}
+        onSuccess={handleStaffCreated}
+      />
     </Container>
   );
 };
