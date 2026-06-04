@@ -1,42 +1,35 @@
-// Client
-export { default as apiClient } from './client';
-export { API_ENDPOINTS } from './endpoints';
-
-// Services
-export {
-  authService,
-  patientService,
-  doctorService,
-  appointmentService,
-} from './services';
-
-// Hooks
-export {
-  useAuthApi,
-  usePatientsApi,
-} from './hooks';
-
-// Types
 export type {
   ApiResponse,
   ApiListResponse,
   ApiErrorResponse,
   PaginationParams,
+} from './api.types';
+
+export type {
   LoginRequest,
   RegisterRequest,
   User,
   UserRole,
   AuthResponse,
+} from './auth.types';
+
+export type {
   CreatePatientRequest,
   UpdatePatientRequest,
   Patient,
   BloodType,
+} from './patient.types';
+
+export type {
   CreateDoctorRequest,
   UpdateDoctorRequest,
   Doctor,
   DoctorStatus,
+} from './doctor.types';
+
+export type {
   CreateAppointmentRequest,
   UpdateAppointmentRequest,
   Appointment,
   AppointmentStatus,
-} from './types';
+} from './appointment.types';

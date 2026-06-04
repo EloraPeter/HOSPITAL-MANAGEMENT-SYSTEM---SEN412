@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/app/store/authStore';
 import { authService } from './auth.service';
 import type { LoginCredentials, RegisterData } from './auth.types';
 
 export const useAuth = () => {
+  const navigate = useNavigate();
   const store = useAuthStore();
 
   const login = useCallback(async (credentials: LoginCredentials) => {
@@ -11,10 +13,14 @@ export const useAuth = () => {
     store.clearError();
     try {
       const response = await authService.login(credentials);
-      store.setAuth(response);
+      store.setAuth({
+        user: response.user,
+        token: response.token,
+        refresh_token: '',
+      });
       return response;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Login failed';
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Login failed. Please check your credentials.';
       store.setError(message);
       throw err;
     } finally {
@@ -27,10 +33,14 @@ export const useAuth = () => {
     store.clearError();
     try {
       const response = await authService.register(data);
-      store.setAuth(response);
+      store.setAuth({
+        user: response.user,
+        token: response.token,
+        refresh_token: '',
+      });
       return response;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Registration failed';
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Registration failed. Please try again.';
       store.setError(message);
       throw err;
     } finally {
@@ -41,24 +51,13 @@ export const useAuth = () => {
   const logout = useCallback(async () => {
     try {
       await authService.logout();
+    } catch {
+      // Logout locally even if API call fails
     } finally {
       store.logout();
+      navigate('/login', { replace: true });
     }
-  }, [store]);
-
-  const forgotPassword = useCallback(async (email: string) => {
-    store.setLoading(true);
-    store.clearError();
-    try {
-      await authService.forgotPassword(email);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to send reset email';
-      store.setError(message);
-      throw err;
-    } finally {
-      store.setLoading(false);
-    }
-  }, [store]);
+  }, [store, navigate]);
 
   return {
     user: store.user,
@@ -68,7 +67,7 @@ export const useAuth = () => {
     login,
     register,
     logout,
-    forgotPassword,
     clearError: store.clearError,
+    hasRole: store.hasRole,
   };
 };

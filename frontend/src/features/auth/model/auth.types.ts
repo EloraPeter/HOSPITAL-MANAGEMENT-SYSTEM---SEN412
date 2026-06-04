@@ -1,4 +1,13 @@
-import type { UserRole } from '@/entities/user/model/user.types';
+// Types matching backend API responses
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  role: 'admin' | 'doctor' | 'nurse' | 'receptionist' | 'patient';
+  is_active: boolean;
+  created_at: string;
+}
 
 export interface LoginCredentials {
   email: string;
@@ -7,52 +16,14 @@ export interface LoginCredentials {
 }
 
 export interface RegisterData {
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   password: string;
-  confirm_password: string;
-  role: UserRole;
+  password_confirmation: string;
   phone: string;
-  date_of_birth: string;
-  blood_group?: string;
-  gender?: string;
-  specialty?: string;
-  department?: string;
-  license_number?: string;
-  emergency_contact_name?: string;
-  emergency_contact_phone?: string;
-  emergency_contact_relationship?: string;
-}
-
-export interface ForgotPasswordData {
-  email: string;
-}
-
-export interface ResetPasswordData {
-  token: string;
-  new_password: string;
-  confirm_password: string;
 }
 
 export interface AuthResponse {
-  user: {
-    id: string;
-    email: string;
-    first_name: string;
-    last_name: string;
-    phone: string;
-    role: UserRole;
-  };
+  user: User;
   token: string;
-  refresh_token: string;
-}
-
-export interface AuthState {
-  user: AuthResponse['user'] | null;
-  token: string | null;
-  refresh_token: string | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  error: string | null;
 }

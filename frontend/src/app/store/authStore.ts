@@ -1,17 +1,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { User, UserRole } from '@/shared/api/types/auth.types';
 
-interface AuthUser {
-  id: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  phone: string;
-  role: string;
-}
-
-interface AuthStoreState {
-  user: AuthUser | null;
+interface AuthState {
+  user: User | null;
   token: string | null;
   refresh_token: string | null;
   isAuthenticated: boolean;
@@ -19,17 +11,18 @@ interface AuthStoreState {
   error: string | null;
 }
 
-interface AuthStoreActions {
-  setAuth: (data: { user: AuthUser; token: string; refresh_token: string }) => void;
+interface AuthActions {
+  setAuth: (data: { user: User; token: string; refresh_token: string }) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   clearError: () => void;
   logout: () => void;
+  hasRole: (roles: UserRole | UserRole[]) => boolean;
 }
 
-export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
+export const useAuthStore = create<AuthState & AuthActions>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       token: null,
       refresh_token: null,
@@ -51,7 +44,6 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
       clearError: () => set({ error: null }),
 
       logout: () => {
-        // Clear all stored data
         set({
           user: null,
           token: null,
@@ -60,10 +52,16 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
           isLoading: false,
           error: null,
         });
-        
-        // Clear persisted storage
         localStorage.removeItem('hospital-auth-storage');
-        sessionStorage.clear();
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      },
+
+      hasRole: (roles) => {
+        const user = get().user;
+        if (!user) return false;
+        const rolesArray = Array.isArray(roles) ? roles : [roles];
+        return rolesArray.includes(user.role);
       },
     }),
     {
@@ -71,7 +69,6 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
       partialize: (state) => ({
         user: state.user,
         token: state.token,
-        refresh_token: state.refresh_token,
         isAuthenticated: state.isAuthenticated,
       }),
     }
