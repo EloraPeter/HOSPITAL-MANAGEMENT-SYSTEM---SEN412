@@ -1,16 +1,14 @@
 export type AppointmentStatus = 'scheduled' | 'confirmed' | 'completed' | 'cancelled' | 'no_show';
 
-// Create appointment - matches POST /appointments
 export interface CreateAppointmentRequest {
   patient_id: number;
   doctor_id: number;
-  appointment_date: string; // YYYY-MM-DD
-  time_slot: string;        // HH:MM (e.g., "09:00", "14:30")
+  appointment_date: string;
+  time_slot: string;
   status?: AppointmentStatus;
   notes?: string;
 }
 
-// Update appointment - matches PUT /appointments/{id}
 export interface UpdateAppointmentRequest {
   appointment_date?: string;
   time_slot?: string;
@@ -18,7 +16,7 @@ export interface UpdateAppointmentRequest {
   notes?: string;
 }
 
-// Appointment object from backend
+// Matches backend response from GET /appointments
 export interface Appointment {
   id: number;
   patient: {

@@ -1,43 +1,36 @@
-export type AppointmentStatus = 
-  | 'pending' 
-  | 'approved' 
-  | 'confirmed' 
-  | 'in-progress' 
-  | 'completed' 
-  | 'cancelled' 
-  | 'no-show';
+export type AppointmentStatus = 'scheduled' | 'confirmed' | 'completed' | 'cancelled' | 'no_show';
 
-export interface Appointment {
-  id: string;
-  patient_id: string;
-  doctor_id: string;
+export interface CreateAppointmentRequest {
+  patient_id: number;
+  doctor_id: number;
   appointment_date: string;
   time_slot: string;
-  duration_minutes: number;
-  type: string;
-  status: AppointmentStatus;
-  reason: string;
+  status?: AppointmentStatus;
   notes?: string;
-  created_at: string;
-  updated_at: string;
 }
 
-export interface AppointmentWithDetails extends Appointment {
+export interface UpdateAppointmentRequest {
+  appointment_date?: string;
+  time_slot?: string;
+  status?: AppointmentStatus;
+  notes?: string;
+}
+
+// Matches backend response from GET /appointments
+export interface Appointment {
+  id: number;
   patient: {
-    user: {
-      first_name: string;
-      last_name: string;
-      email: string;
-      phone: string;
-    };
-    blood_group: string;
+    id: number;
+    name: string;
   };
   doctor: {
-    user: {
-      first_name: string;
-      last_name: string;
-    };
+    id: number;
+    name: string;
     specialty: string;
-    department: string;
   };
+  appointment_date: string;
+  time_slot: string;
+  status: AppointmentStatus;
+  notes: string;
+  created_at: string;
 }
