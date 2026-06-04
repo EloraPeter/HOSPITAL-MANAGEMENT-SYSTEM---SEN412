@@ -2,7 +2,6 @@ import React from 'react';
 import { Dropdown, Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Bell, 
   Search, 
   PersonCircle, 
   Gear, 
@@ -13,6 +12,7 @@ import {
 } from 'react-bootstrap-icons';
 import { useAuthStore } from '@/app/store/authStore';
 import { useUIStore } from '@/app/store/uiStore';
+import { NotificationDropdown } from '@/features/notifications';
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -40,7 +40,6 @@ export const Header: React.FC = () => {
             <List size={20} />
           </button>
           
-          {/* Search - Hidden on mobile */}
           <div className="d-none d-md-flex align-items-center bg-light rounded-pill px-3 py-1" style={{ width: '300px' }}>
             <Search size={16} className="text-muted me-2 flex-shrink-0" />
             <input
@@ -54,7 +53,6 @@ export const Header: React.FC = () => {
 
         {/* Right Side */}
         <div className="d-flex align-items-center gap-2 gap-md-3">
-          {/* Search icon for mobile */}
           <button 
             className="btn btn-light btn-sm rounded-circle d-md-none d-flex align-items-center justify-content-center"
             style={{ width: '38px', height: '38px' }}
@@ -62,7 +60,6 @@ export const Header: React.FC = () => {
             <Search size={18} />
           </button>
 
-          {/* Theme Toggle */}
           <button 
             className="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center"
             onClick={toggleTheme}
@@ -71,20 +68,8 @@ export const Header: React.FC = () => {
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
-          {/* Notifications */}
-          <button 
-            className="btn btn-light btn-sm rounded-circle position-relative d-flex align-items-center justify-content-center"
-            style={{ width: '38px', height: '38px' }}
-          >
-            <Bell size={18} />
-            <Badge 
-              bg="danger" 
-              className="position-absolute top-0 start-100 translate-middle rounded-pill"
-              style={{ fontSize: '0.6rem' }}
-            >
-              3
-            </Badge>
-          </button>
+          {/* Notifications - Using our new component */}
+          <NotificationDropdown />
 
           {/* User Dropdown */}
           <Dropdown align="end">
@@ -97,21 +82,21 @@ export const Header: React.FC = () => {
                 className="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white flex-shrink-0"
                 style={{ width: '32px', height: '32px', fontSize: '0.875rem' }}
               >
-                {user?.first_name?.[0]}{user?.last_name?.[0]}
+                {user?.name?.[0] || 'U'}
               </div>
               <div className="d-none d-md-block text-start">
                 <div className="fw-semibold" style={{ fontSize: '0.875rem', lineHeight: '1.2' }}>
-                  {user?.first_name} {user?.last_name}
+                  {user?.name || 'User'}
                 </div>
                 <small className="text-muted" style={{ fontSize: '0.75rem' }}>
-                  {user?.role}
+                  {user?.role || 'Staff'}
                 </small>
               </div>
             </Dropdown.Toggle>
 
             <Dropdown.Menu className="shadow-sm border-0 mt-2" style={{ minWidth: '200px' }}>
               <Dropdown.Header>
-                <strong>{user?.first_name} {user?.last_name}</strong>
+                <strong>{user?.name}</strong>
                 <br />
                 <small className="text-muted">{user?.email}</small>
               </Dropdown.Header>
