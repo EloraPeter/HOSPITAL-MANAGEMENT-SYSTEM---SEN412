@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-// import { useDashboard } from '@/features/dashboard/model/useDashboard';
+
 import {
   StatsWidget,
   AppointmentList,
@@ -43,7 +43,7 @@ const DashboardPage: React.FC = () => {
         subtitle={
           lastUpdated
             ? `Last updated: ${lastUpdated.toLocaleTimeString()}`
-            : 'Welcome back! Here\'s what\'s happening today.'
+            : "Welcome back! Here's what's happening today."
         }
         actions={
           <div className="d-flex gap-2">

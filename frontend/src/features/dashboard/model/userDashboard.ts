@@ -23,8 +23,9 @@ export const useDashboard = (): UseDashboardReturn => {
       const result = await dashboardService.getDashboardData();
       setData(result);
       setLastUpdated(new Date());
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load dashboard data');
+    } catch (err: any) {
+      const message = err.response?.data?.message || err.message || 'Failed to load dashboard data';
+      setError(message);
     } finally {
       setIsLoading(false);
     }
