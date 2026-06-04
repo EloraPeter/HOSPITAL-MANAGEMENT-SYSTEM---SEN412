@@ -13,6 +13,11 @@ const PatientListPage = lazy(() => import('@/pages/patients/PatientListPage'));
 const StaffPage = lazy(() => import('@/pages/staff/StaffPage'));
 const NotFoundPage = lazy(() => import('@/pages/errors/NotFoundPage'));
 
+const PatientDetailPage = lazy(() => import('@/pages/patients/PatientDetailPage'));
+
+// Add this route inside the MainLayout
+
+
 const PageLoader = () => (
   <div className="d-flex justify-content-center align-items-center vh-100">
     <div className="text-center">
@@ -40,6 +45,7 @@ export const AppRouter: React.FC = () => {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/appointments" element={<AppointmentListPage />} />
             <Route path="/patients" element={<PatientListPage />} />
+            <Route path="/patients/:id" element={<PatientDetailPage />} />
             {/* Add Staff route here */}
             <Route path="/staff" element={<StaffPage />} />
           </Route>
