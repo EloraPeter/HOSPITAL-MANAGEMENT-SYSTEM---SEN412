@@ -1,0 +1,43 @@
+// ============================================
+// Use @use and @forward instead of @import
+// ============================================
+
+// Bootstrap
+@use 'bootstrap/scss/bootstrap';
+
+// Custom styles
+@use './variables' as *;
+@use './mixins' as *;
+
+// ============================================
+// Global Reset & Base Styles
+// ============================================
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $gray-900;
+  background-color: $gray-100;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
